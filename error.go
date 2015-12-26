@@ -8,6 +8,8 @@ import (
 	"runtime"
 )
 
+var Output io.Writer = os.Stdout
+
 func context() string {
 	pc, file, line, ok := runtime.Caller(2)
 	if !ok {
@@ -19,14 +21,14 @@ func context() string {
 
 func Exit(e error) {
 	if e != nil {
-		fmt.Printf("%s: %s\n", context(), e)
+		fmt.Fprintf(Output, "%s: %s\n", context(), e)
 		os.Exit(1)
 	}
 }
 
 func Print(e error) bool {
 	if e != nil {
-		fmt.Printf("%s: %s\n", context(), e)
+		fmt.Fprintf(Output, "%s: %s\n", context(), e)
 	}
 	return e != nil
 }

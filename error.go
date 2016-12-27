@@ -33,10 +33,25 @@ func Print(e error) bool {
 	return e != nil
 }
 
-func CloseOrExit(c io.Closer) {
-	Exit(c.Close())
+func Panic(e error) {
+	if e != nil {
+		fmt.Fprintf(Output, "%s: %s\n", context(), e)
+		panic(e)
+	}
 }
 
-func CloseOrPrint(c io.Closer) {
-	Print(c.Close())
+func CloseOrExit(c io.Closer) {
+	e := c.Close()
+	if e != nil {
+		fmt.Fprintf(Output, "%s: %s\n", context(), e)
+		os.Exit(1)
+	}
+}
+
+func CloseOrPrint(c io.Closer) bool {
+	e := c.Close()
+	if e != nil {
+		fmt.Fprintf(Output, "%s: %s\n", context(), e)
+	}
+	return e != nil
 }

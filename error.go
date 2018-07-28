@@ -8,7 +8,7 @@ import (
 	"runtime"
 )
 
-var Output io.Writer = os.Stdout
+var Output io.Writer = os.Stderr
 
 func context() string {
 	pc, file, line, ok := runtime.Caller(2)
